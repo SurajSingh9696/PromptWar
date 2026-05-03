@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VoteWise India | Election Process Assistant</title>
+    <meta name="description" content="VoteWise India helps citizens understand Indian elections, voter registration, EPIC card, ECI guidelines, and state election schedules.">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#1a56db" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <link rel="canonical" href="/">
+    <!-- Open Graph -->
+    <meta property="og:title" content="VoteWise India — Election Assistant">
+    <meta property="og:description" content="Non-partisan AI guide to Indian elections powered by ECI data. Voter registration, EPIC card, election dates, and more.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_IN">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="VoteWise India">
+    <meta name="twitter:description" content="Non-partisan AI guide to Indian elections powered by ECI data.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <!-- Skip navigation link for keyboard and screen-reader users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="bg-blob blob-1" aria-hidden="true"></div>
+    <div class="bg-blob blob-2" aria-hidden="true"></div>
+    <div class="bg-blob blob-3" aria-hidden="true"></div>
+
+    <noscript>
+        <p style="text-align:center;padding:2rem;font-family:sans-serif">
+            VoteWise India requires JavaScript. For voter information, visit
+            <a href="https://eci.gov.in">eci.gov.in</a> or call <strong>1950</strong>.
+        </p>
+    </noscript>
+
+    <div class="app-shell">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar" role="complementary" aria-label="Sidebar: state selector, eligibility check, and quick links">
+            <div class="sidebar-header">
+                <div class="brand-block">
+                    <span class="brand-mark" aria-hidden="true">VI</span>
+                    <div>
+                        <span class="logo">VoteWise India</span>
+                        <p class="brand-tagline">Election Process Assistant</p>
+                    </div>
+                </div>
+                <button id="sidebar-close" class="icon-btn" aria-label="Close sidebar" aria-expanded="true" aria-controls="sidebar">✕</button>
+            </div>
+
+            <div class="sidebar-section">
+                <label class="sidebar-label" for="state-select" data-i18n="selectState">Select your State / UT</label>
+                <select id="state-select" aria-label="Select your state or Union Territory">
+                    <option value="" data-i18n-val="chooseState">— Choose a State / UT —</option>
+                    <optgroup label="Recent Elections (2026)">
+                        <option value="WB">West Bengal</option>
+                        <option value="TN">Tamil Nadu</option>
+                        <option value="KL">Kerala</option>
+                        <option value="AS">Assam</option>
+                    </optgroup>
+                    <optgroup label="2025 Elections">
+                        <option value="DL">Delhi</option>
+                        <option value="BR">Bihar</option>
+                    </optgroup>
+                    <optgroup label="Upcoming (2027–2029)">
+                        <option value="UP">Uttar Pradesh</option>
+                        <option value="GJ">Gujarat</option>
+                        <option value="PB">Punjab</option>
+                        <option value="MH">Maharashtra</option>
+                        <option value="KA">Karnataka</option>
+                        <option value="RJ">Rajasthan</option>
+                        <option value="MP">Madhya Pradesh</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="sidebar-section">
+                <p class="sidebar-label" id="eligibility-heading" data-i18n="quickEligibility">Quick Eligibility Check</p>
+                <div id="eligibility-form" role="group" aria-labelledby="eligibility-heading">
+                    <label for="age-input" class="sr-only">Your age</label>
+                    <input type="number" id="age-input" placeholder="Your age (18+)" min="0" max="120"
+                        aria-required="true"
+                        aria-describedby="age-hint"
+                        data-i18n-ph="agePlaceholder">
+                    <span id="age-hint" class="sr-only">Minimum 18 years required to vote in India</span>
+                    <label class="checkbox-row" for="citizen-check">
+                        <input type="checkbox" id="citizen-check">
+                        <span data-i18n="citizenLabel">I'm an Indian citizen</span>
+                    </label>
+                    <button id="check-eligibility-btn" class="pill-btn" data-i18n="checkEligibility"
+                        aria-controls="eligibility-result">Check Eligibility</button>
+                </div>
+                <div id="eligibility-result" class="hidden" role="status" aria-live="polite"></div>
+            </div>
+
+            <div class="sidebar-section">
+                <p class="sidebar-label" data-i18n="quickTopics">Quick Topics</p>
+                <div class="quick-topics">
+                    <button class="topic-chip" data-msg="How do I register as a voter in India?">📋 Register</button>
+                    <button class="topic-chip" data-msg="What is the EPIC Voter ID card?">🪪 EPIC</button>
+                    <button class="topic-chip" data-msg="What alternative IDs are accepted at polling booth?">📄 Alt. IDs</button>
+                    <button class="topic-chip" data-msg="How do EVMs and VVPAT work?">🖥️ EVM</button>
+                    <button class="topic-chip" data-msg="How do I check if my name is on the electoral roll?">🔍 Name Check</button>
+                    <button class="topic-chip" data-msg="When is the next Lok Sabha election?">🏛️ Lok Sabha</button>
+                    <button class="topic-chip" data-msg="What is the cVIGIL app for?">📱 cVIGIL</button>
+                    <button class="topic-chip" data-msg="What is the Model Code of Conduct?">📜 MCC</button>
+                </div>
+            </div>
+
+            <div class="sidebar-section eci-links">
+                <p class="sidebar-label" data-i18n="eciResources">Official ECI Resources</p>
+                <a href="https://voters.eci.gov.in" target="_blank" rel="noopener" class="eci-link">🌐 voters.eci.gov.in</a>
+                <a href="https://electoralsearch.eci.gov.in" target="_blank" rel="noopener" class="eci-link">🔍 Search Electoral Roll</a>
+                <a href="https://eci.gov.in" target="_blank" rel="noopener" class="eci-link">🏛️ eci.gov.in (Official ECI)</a>
+                <div class="helpline-badge">📞 Helpline: <strong>1950</strong> (Toll-free)</div>
+            </div>
+
+            <div class="sidebar-footer" data-i18n="disclaimer">
+                ⚠️ Data sourced from ECI. Always verify at eci.gov.in or call 1950 before acting.
+            </div>
+        </aside>
+
+        <!-- ===== MAIN CHAT ===== -->
+        <div class="main-panel" id="main-content" role="main">
+            <header class="app-header">
+                <button id="sidebar-open" class="icon-btn" aria-label="Open sidebar menu" aria-expanded="false" aria-controls="sidebar">☰</button>
+                <div class="header-title">
+                    <h1>VoteWise India</h1>
+                    <span class="subtitle" id="state-badge" data-i18n="poweredBy">Powered by ECI Data</span>
+                </div>
+                <div class="header-actions">
+                    <span class="helpline-pill">📞 1950</span>
+                    <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">☀️</button>
+                </div>
+            </header>
+
+            <section class="hero-strip" aria-label="Assistant highlights">
+                <article class="hero-card">
+                    <p class="hero-kicker">Trusted</p>
+                    <p class="hero-value">ECI-grounded guidance</p>
+                </article>
+                <article class="hero-card">
+                    <p class="hero-kicker">Multilingual</p>
+                    <p class="hero-value">22 official languages</p>
+                </article>
+                <article class="hero-card">
+                    <p class="hero-kicker">Support</p>
+                    <p class="hero-value">Helpline 1950</p>
+                </article>
+            </section>
+
+            <!-- ===== TOP QUICK NAVIGATOR ===== -->
+            <nav class="top-nav" aria-label="Main navigation shortcuts">
+                <select id="lang-select" aria-label="Choose language" title="Language">
+                    <option value="en">🌐 English</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="bn">বাংলা</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="mr">मराठी</option>
+                    <option value="ta">தமிழ்</option>
+                    <option value="ur">اردو</option>
+                    <option value="gu">ગુજરાતી</option>
+                    <option value="kn">ಕನ್ನಡ</option>
+                    <option value="ml">മലയാളം</option>
+                    <option value="or">ଓଡ଼ିଆ</option>
+                    <option value="pa">ਪੰਜਾਬੀ</option>
+                    <option value="as">অসমীয়া</option>
+                    <option value="mai">मैथिली</option>
+                    <option value="sa">संस्कृतम्</option>
+                    <option value="ne">नेपाली</option>
+                    <option value="sd">سنڌي</option>
+                    <option value="ks">कॉशुर</option>
+                    <option value="doi">डोगरी</option>
+                    <option value="kok">कोंकणी</option>
+                    <option value="mni">মৈতৈলোন্</option>
+                    <option value="sat">ᱥᱟᱱᱛᱟᱲᱤ</option>
+                    <option value="bo">བོད་སྐད</option>
+                </select>
+                <button class="nav-chip" data-msg="How do I register to vote?" data-i18n="navRegister">📋 Register</button>
+                <button class="nav-chip" data-msg="I am unable to vote. What are the reasons?">⚠️ Unable to Vote</button>
+                <button class="nav-chip" data-msg="How do EVMs work?">🖥️ EVM</button>
+                <button class="nav-chip" data-msg="Where is my polling booth?">📍 Booth</button>
+                <button class="nav-chip" data-msg="What is EPIC Voter ID?">🪪 EPIC</button>
+                <button class="nav-chip" data-msg="When is the next election in my state?">📅 Dates</button>
+                <button class="nav-chip" data-msg="How to report election violations?">📱 cVIGIL</button>
+            </nav>
+
+            <div class="chat-wrapper">
+                <div id="chat-log" role="log" aria-live="polite" aria-label="Conversation">
+                    <div class="msg-row bot">
+                        <div class="avatar">🗳️</div>
+                        <div class="bubble bot-bubble">
+                            <p data-i18n="welcomeTitle">नमस्ते! I'm <strong>VoteWise India</strong> — your non-partisan guide to Indian elections, powered by <strong>Election Commission of India (ECI)</strong> data.</p>
+                            <p data-i18n="welcomeHelp">I can help you with:</p>
+                            <ul>
+                                <li data-i18n="w1">✅ Voter registration (Form 6) &amp; EPIC / Voter ID</li>
+                                <li data-i18n="w2">✅ State-wise election schedules (Vidhan Sabha / Lok Sabha)</li>
+                                <li data-i18n="w3">✅ Electoral roll search &amp; polling booth finder</li>
+                                <li data-i18n="w4">✅ EVM/VVPAT, Model Code of Conduct, cVIGIL</li>
+                                <li data-i18n="w5">✅ Alternative ID documents accepted at polls</li>
+                            </ul>
+                            <p data-i18n="welcomeAction">Select your <strong>state</strong> from the sidebar for personalised info, or just ask me anything!</p>
+                            <p style="font-size:0.78rem;color:var(--text-dim);margin-top:0.5rem;">📞 National Voter Helpline: <strong>1950</strong> (Toll-free) | 🌐 <a href="https://eci.gov.in" target="_blank">eci.gov.in</a></p>
+                            <div class="msg-meta"><span class="source-badge local">⚡ instant</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="typing-indicator" class="msg-row bot hidden"
+                    role="status" aria-live="polite" aria-label="VoteWise India is typing">
+                    <div class="avatar" aria-hidden="true">🗳️</div>
+                    <div class="bubble bot-bubble typing" aria-hidden="true">
+                        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                    </div>
+                </div>
+
+                <div id="followups-container" role="group" aria-label="Suggested follow-up questions"></div>
+            </div>
+
+            <form id="chat-form" class="input-bar" role="search" aria-label="Ask VoteWise India">
+                <label for="user-input" class="sr-only">Your question</label>
+                <input type="text" id="user-input"
+                    placeholder="Ask about voter registration, EPIC card, election dates…"
+                    autocomplete="off"
+                    aria-label="Type your question about Indian elections"
+                    aria-required="true"
+                    maxlength="500"
+                    data-i18n-ph="inputPlaceholder">
+                <button type="submit" id="send-btn" aria-label="Send your question">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true" focusable="false">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>

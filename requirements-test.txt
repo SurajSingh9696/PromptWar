@@ -1,0 +1,15 @@
+# VoteWise India — test-only dependencies
+# Install with: pip install -r requirements-test.txt
+
+# Test runner and plugins
+pytest==8.2.0
+pytest-cov==5.0.0         # coverage reporting
+pytest-mock==3.14.0       # mock helpers
+pytest-asyncio==0.23.7    # async test support (future use)
+
+# HTTP testing
+flask==3.0.3
+werkzeug==3.0.3
+
+# Stubs / type checking helpers
+types-requests==2.32.0.20240602

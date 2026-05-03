@@ -1,0 +1,40 @@
+rules_version = '2';
+// ============================================================
+// VoteWise India — Firestore Security Rules
+// Last reviewed: 2026-05-03
+// Policy: DENY-ALL client access.
+// Rationale: ALL reads and writes are performed server-side via
+//   Firebase Admin SDK (which bypasses these rules entirely).
+//   No client-side SDK access is needed or permitted.
+// ============================================================
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // analytics/ — Server-only write path.
+    // Stores anonymised chat interaction logs for usage analytics.
+    // Client access is denied to protect user privacy.
+    match /analytics/{doc=**} {
+      allow read, write: if false;
+    }
+
+    // cache/ — Server-only read/write path.
+    // Stores Gemini AI response cache (SHA-256 keyed, 24h TTL).
+    // Client access is denied to prevent cache poisoning attacks.
+    match /cache/{doc=**} {
+      allow read, write: if false;
+    }
+
+    // rate_limits/ — Server-only read/write path.
+    // Stores per-user sliding-window request counters (1h window).
+    // Client access is denied to prevent rate-limit tampering.
+    match /rate_limits/{uid} {
+      allow read, write: if false;
+    }
+
+    // Catch-all deny: any collection not explicitly listed above
+    // is also fully denied to client-side access.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
