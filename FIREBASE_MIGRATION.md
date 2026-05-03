@@ -1,7 +1,4 @@
-# VoteWise India — Firebase Migration Documentation (Legacy)
-
-> This document is retained for reference only.  
-> The current project now runs as a standalone Cloud Run service without Firebase dependencies.
+# VoteWise India — Firebase Migration Documentation
 
 ## Architecture Overview
 

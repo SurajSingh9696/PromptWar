@@ -88,7 +88,7 @@ LOCAL_ANSWERS: Dict[str, tuple[list[str], str]] = {
         "**How Voting Works in India — EVM & VVPAT:**\n\n1. 🗳️ India uses **Electronic Voting Machines (EVMs)** — no paper ballot needed.\n2. 📄 Every EVM is paired with a **VVPAT (Voter Verified Paper Audit Trail)** machine that shows you a printed slip of your vote for 7 seconds before it drops into a sealed box.\n3. Show your EPIC (or alternative ID) to the polling officer.\n4. Your finger is marked with **indelible ink** after voting.\n5. Press the button next to your chosen candidate's name and symbol on the EVM."
     ),
     "check_name": (
-        ["check my name", "am i registered", "electoral roll", "check voter list", "find my name", "search voter"],
+        ["check my name", "am i registered", "electoral roll", "voter list", "find my name", "search voter"],
         "**How to Check if Your Name is on the Electoral Roll:**\n\n1. 🌐 **Online:** Visit [electoralsearch.eci.gov.in](https://electoralsearch.eci.gov.in)\n2. 📱 **App:** Download the **Voter Helpline App**\n3. 📞 **Call:** Dial **1950** (National Voter Helpline — toll-free)\n4. 🏛️ **Offline:** Visit your Booth Level Officer (BLO) or Electoral Registration Office\n\nYou'll need your name, date of birth, and state/constituency details."
     ),
     "polling_booth": (
@@ -112,7 +112,7 @@ LOCAL_ANSWERS: Dict[str, tuple[list[str], str]] = {
         "**Vidhan Sabha (State Legislative Assembly):**\nEach Indian state has its own Vidhan Sabha (Legislative Assembly). Members (MLAs) are elected directly by voters in the state.\n\n**Recent/Upcoming State Elections:**\n- 🗳️ **West Bengal, Tamil Nadu, Kerala, Assam** — April 2026 (results: May 4, 2026)\n- 🗳️ **Bihar** — Nov 2025 (completed)\n- 🗳️ **Delhi** — Feb 5, 2025 (completed)\n\nAsk me about a specific state for detailed dates!"
     ),
     "disclaimer": (
-        ["data source", "is this accurate", "is this data accurate", "official source", "eci website"],
+        ["data source", "is this accurate", "official source", "eci website"],
         "**Data Source:**\nAll election data provided by VoteWise India is sourced from the **Election Commission of India (ECI)** at [eci.gov.in](https://eci.gov.in).\n\n⚠️ Always verify important dates and rules with the official ECI website or call the National Voter Helpline at **1950** before taking action."
     ),
     "unable_to_vote": (
@@ -137,7 +137,7 @@ LOCAL_ANSWERS: Dict[str, tuple[list[str], str]] = {
     ),
     "name_not_on_roll": (
         [
-            "name not on list", "name not on voter list", "name not found", "name not in voter list",
+            "name not on list", "name not found", "name not in voter list",
             "name missing from roll", "not in electoral roll", "naam nahi hai",
             "name deleted", "name removed", "my name is not", "name is missing",
         ],

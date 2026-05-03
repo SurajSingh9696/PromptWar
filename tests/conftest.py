@@ -11,7 +11,7 @@ Example:
 from __future__ import annotations
 
 from typing import Generator
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -22,16 +22,19 @@ import pytest
 
 @pytest.fixture(scope="session")
 def app():
-    """Return a configured Flask test app.
+    """Return a configured Flask test app with Firebase mocked out.
 
-    Scope is 'session' so app setup happens once per test run.
+    Scope is 'session' so Firebase is initialised only once per test run,
+    matching the singleton pattern used in production code.
 
     Yields:
         flask.Flask: The application instance under test.
     """
-    from functions.main import app as flask_app
-    flask_app.config["TESTING"] = True
-    yield flask_app
+    with patch("firebase_admin.initialize_app"), \
+         patch("firebase_admin.firestore.client", return_value=MagicMock()):
+        from functions.main import app as flask_app
+        flask_app.config["TESTING"] = True
+        yield flask_app
 
 
 @pytest.fixture()

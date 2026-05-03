@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VoteWise India | Election Process Assistant</title>
+    <title>VoteWise India — Election Assistant</title>
     <meta name="description" content="VoteWise India helps citizens understand Indian elections, voter registration, EPIC card, ECI guidelines, and state election schedules.">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#1a56db" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-    <link rel="canonical" href="/">
+    <link rel="canonical" href="https://voterwise-c0186.web.app/">
     <!-- Open Graph -->
     <meta property="og:title" content="VoteWise India — Election Assistant">
     <meta property="og:description" content="Non-partisan AI guide to Indian elections powered by ECI data. Voter registration, EPIC card, election dates, and more.">
@@ -20,9 +20,17 @@
     <meta name="twitter:description" content="Non-partisan AI guide to Indian elections powered by ECI data.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Firebase SDK (auto-configured by Hosting) -->
+    <script type="module" src="/__/firebase/12.12.1/firebase-app.js"></script>
+    <script type="module" src="/__/firebase/12.12.1/firebase-auth.js"></script>
+    <script type="module" src="/__/firebase/12.12.1/firebase-analytics.js"></script>
+    <script type="module" src="/__/firebase/12.12.1/firebase-performance.js"></script>
+    <script type="module" src="/__/firebase/12.12.1/firebase-remote-config.js"></script>
+    <script type="module" src="/__/firebase/init.js"></script>
+    <script type="module" src="/firebase-init.js"></script>
 </head>
 <body>
     <!-- Skip navigation link for keyboard and screen-reader users -->
@@ -43,13 +51,7 @@
         <!-- ===== SIDEBAR ===== -->
         <aside class="sidebar" id="sidebar" role="complementary" aria-label="Sidebar: state selector, eligibility check, and quick links">
             <div class="sidebar-header">
-                <div class="brand-block">
-                    <span class="brand-mark" aria-hidden="true">VI</span>
-                    <div>
-                        <span class="logo">VoteWise India</span>
-                        <p class="brand-tagline">Election Process Assistant</p>
-                    </div>
-                </div>
+                <span class="logo">🗳️ VoteWise India</span>
                 <button id="sidebar-close" class="icon-btn" aria-label="Close sidebar" aria-expanded="true" aria-controls="sidebar">✕</button>
             </div>
 
@@ -130,7 +132,7 @@
             <header class="app-header">
                 <button id="sidebar-open" class="icon-btn" aria-label="Open sidebar menu" aria-expanded="false" aria-controls="sidebar">☰</button>
                 <div class="header-title">
-                    <h1>VoteWise India</h1>
+                    <h1>🗳️ VoteWise India</h1>
                     <span class="subtitle" id="state-badge" data-i18n="poweredBy">Powered by ECI Data</span>
                 </div>
                 <div class="header-actions">
@@ -138,21 +140,6 @@
                     <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">☀️</button>
                 </div>
             </header>
-
-            <section class="hero-strip" aria-label="Assistant highlights">
-                <article class="hero-card">
-                    <p class="hero-kicker">Trusted</p>
-                    <p class="hero-value">ECI-grounded guidance</p>
-                </article>
-                <article class="hero-card">
-                    <p class="hero-kicker">Multilingual</p>
-                    <p class="hero-value">22 official languages</p>
-                </article>
-                <article class="hero-card">
-                    <p class="hero-kicker">Support</p>
-                    <p class="hero-value">Helpline 1950</p>
-                </article>
-            </section>
 
             <!-- ===== TOP QUICK NAVIGATOR ===== -->
             <nav class="top-nav" aria-label="Main navigation shortcuts">

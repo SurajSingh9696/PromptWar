@@ -1,4 +1,10 @@
-flask>=3.0.0,<4.0.0
-gunicorn>=22.0.0,<23.0.0
-google-genai>=1.0.0,<2.0.0
+# Pinned versions — update after testing with: pip install -U <pkg> && pip freeze
+firebase-functions>=0.1.0,<1.0.0
+firebase-admin>=6.5.0,<7.0.0
+google-cloud-aiplatform>=1.60.0,<2.0.0
+google-cloud-firestore>=2.16.0,<3.0.0
+google-cloud-logging>=3.10.0,<4.0.0
 pydantic>=2.9.2,<3.0.0
+pytest>=8.0.0,<9.0.0
+pytest-mock>=3.14.0,<4.0.0
+flask>=3.0.0,<4.0.0

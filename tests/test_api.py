@@ -1,5 +1,5 @@
 """
-Integration tests for VoteWise India standalone API endpoints.
+Integration tests for VoteWise India Cloud Function endpoints.
 
 Tests cover:
     - /health — liveness probe
@@ -8,7 +8,8 @@ Tests cover:
     - /timeline    — state timeline lookup
     - /states      — state list endpoint
 
-Tests run offline and do not require cloud credentials.
+All Firebase dependencies are mocked so tests run offline without any GCP
+credentials.
 """
 
 import json
@@ -47,7 +48,14 @@ def make_mock_request(method="GET", url="/", json_data=None, args=None, headers=
     return Request(env)
 
 
-from functions.main import chat, health, eligibility, timeline, states
+# ---------------------------------------------------------------------------
+# Module-level patch: prevent real Firebase init on import
+# ---------------------------------------------------------------------------
+with (
+    patch("firebase_admin.initialize_app"),
+    patch("firebase_admin.firestore.client"),
+):
+    from functions.main import chat, health, eligibility, timeline, states
 
 
 # ---------------------------------------------------------------------------
@@ -65,7 +73,7 @@ class TestHealthEndpoint:
         resp = health(req)
         data = json.loads(resp.get_data())
         assert data["status"] == "ok"
-        assert data["backend"] == "standalone-cloud-run"
+        assert data["backend"] == "firebase-functions"
 
     def test_security_headers_present(self):
         req = make_mock_request(method="GET", url="/health")

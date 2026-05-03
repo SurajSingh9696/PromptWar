@@ -94,7 +94,15 @@ checkBtn.addEventListener("click",async()=>{
   const age=parseInt(ageinput.value,10),citizen=citizenCheck.checked,state=stateSelect.value||"DL";
   if(isNaN(age)||age<0||age>120){eligibilityResult.textContent="⚠️ Enter a valid age (0–120).";eligibilityResult.className="ineligible";eligibilityResult.classList.remove("hidden");return}
   try{
-    const r=await fetch(`/eligibility?age=${age}&citizen=${citizen}&state=${state}`);const d=await r.json();eligibilityResult.classList.remove("hidden");
+    // Wait for Firebase anonymous auth to complete before calling the API
+    if(window.__vwTokenReady) await window.__vwTokenReady;
+    const headers={"Content-Type":"application/json"};
+    if(window.__vwToken) headers["Authorization"]="Bearer "+window.__vwToken;
+    if(window.__firebase?.getAppCheckToken){
+      const acToken = await window.__firebase.getAppCheckToken();
+      if(acToken) headers["X-Firebase-AppCheck"] = acToken;
+    }
+    const r=await fetch(`/eligibility?age=${age}&citizen=${citizen}&state=${state}`,{headers});const d=await r.json();eligibilityResult.classList.remove("hidden");
     if(d.eligible){eligibilityResult.textContent="✅ You appear eligible to vote!";eligibilityResult.className="eligible"}
     else{eligibilityResult.textContent=`❌ ${d.reasons[0]}`;eligibilityResult.className="ineligible"}
   }catch(e){
@@ -177,8 +185,8 @@ function pick_followups(r){const l=r.toLowerCase();
 
 /**
  * Sends a user message through the 3-tier response pipeline.
- * Checks client-side cache first, then calls the /chat backend endpoint.
- * Handles graceful error display.
+ * Checks client-side cache first, then calls the /chat Cloud Function.
+ * Handles Firebase Analytics/Performance tracing and graceful error display.
  * @param {string} text - The message text to send.
  * @returns {Promise<void>}
  */
@@ -193,8 +201,36 @@ async function sendMessage(text){
   if(sendBtn){sendBtn.disabled=true;sendBtn.setAttribute('aria-disabled','true');}
   typingIndicator.classList.remove('hidden');scrollBottom();
 
+  // ― Firebase Analytics: log each question ―
+  if(window.__firebase?.logEvent && window.__firebase?.analytics){
+    try{
+      const cat=text.toLowerCase().includes("register")?"registration":
+                text.toLowerCase().includes("epic")||text.toLowerCase().includes("voter id")?"epic":
+                text.toLowerCase().includes("booth")?"booth":"general";
+      window.__firebase.logEvent(window.__firebase.analytics,"question_asked",{
+        category:cat,
+        state:conversationContext.state||"none",
+        language:conversationContext.language||"English"
+      });
+    }catch(_){}
+  }
+
+  // ― Firebase Performance: trace per chat request ―
+  let perfTrace=null;
+  if(window.__firebase?.trace && window.__firebase?.perf){
+    try{perfTrace=window.__firebase.trace(window.__firebase.perf,"chat_request");perfTrace.start();}catch(_){}
+  }
+
   try{
-    const res=await fetch("/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:text,context:conversationContext})});
+    // Wait for Firebase Auth token before calling protected API
+    if(window.__vwTokenReady) await window.__vwTokenReady;
+    const headers={"Content-Type":"application/json"};
+    if(window.__vwToken) headers["Authorization"]="Bearer "+window.__vwToken;
+    if(window.__firebase?.getAppCheckToken){
+      const acToken = await window.__firebase.getAppCheckToken();
+      if(acToken) headers["X-Firebase-AppCheck"] = acToken;
+    }
+    const res=await fetch("/chat",{method:"POST",headers,body:JSON.stringify({message:text,context:conversationContext})});
     typingIndicator.classList.add("hidden");
     if(!res.ok){
       const errBody=await res.text();
@@ -218,6 +254,7 @@ async function sendMessage(text){
     isSending=false;
     // Re-enable send button
     if(sendBtn){sendBtn.disabled=false;sendBtn.setAttribute('aria-disabled','false');}
+    try{perfTrace?.stop();}catch(_){}
   }
 }
 
